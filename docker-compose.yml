@@ -1,0 +1,25 @@
+version: '3.7'
+
+volumes:
+  deps:
+  builds:
+  node_frontend:
+
+services:
+  phx:
+    image: jmontero/phoenix:1.5.1
+    ports:
+      - ${FRONTEND_HTTP_PORT}:${FRONTEND_HTTP_PORT}
+      - ${FRONTEND_HTTPS_PORT}:${FRONTEND_HTTPS_PORT}
+    volumes:
+      - ./src:/app/src
+      - deps:/app/src/deps
+      - builds:/app/src/_build
+      - node_frontend:/app/src/apps/frontend/assets/node_modules
+    environment:
+      - MIX_ENV=${ENV}
+      - FRONTEND_HTTP_PORT=${FRONTEND_HTTP_PORT}
+      - FRONTEND_HTTPS_PORT=${FRONTEND_HTTPS_PORT}
+      - FRONTEND_SECRET_KEY_BASE=${FRONTEND_SECRET_KEY_BASE}
+    working_dir: /app/src
+  
